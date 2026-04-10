@@ -47,7 +47,64 @@ const App = () => {
     return experiments.filter(exp => exp.status === 'Завершён').length;
   }, [experiments]);
 
-  
+  return (
+    <div className="app-container">
+      <header>
+        <h1>Система учёта экспериментов</h1>
+        <div className="stats-badge">
+          Завершено: <span>{completedCount}</span>
+        </div>
+      </header>
+
+      <section className="form-section">
+        <form onSubmit={handleAdd}>
+          <input 
+            type="text" 
+            placeholder="Название эксперимента..." 
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+            <option value="План">План</option>
+            <option value="В процессе">В процессе</option>
+            <option value="Завершён">Завершён</option>
+          </select>
+          <button type="submit" className="add-btn">Добавить</button>
+        </form>
+      </section>
+
+      <section className="controls">
+        <label>Фильтровать: </label>
+        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <option value="Все">Все статусы</option>
+          <option value="План">План</option>
+          <option value="В процессе">В процессе</option>
+          <option value="Завершён">Завершён</option>
+        </select>
+      </section>
+
+      <main>
+        <ul className="exp-list">
+          {filteredList.map(exp => (
+            <li key={exp.id} className={`exp-item status-${exp.status.replace(/\s+/g, '-').toLowerCase()}`}>
+              <div className="exp-info">
+                <span className="exp-title">{exp.title}</span>
+                <span className="exp-status-label">{exp.status}</span>
+              </div>
+              <button onClick={() => handleDelete(exp.id)} className="delete-btn">Удалить</button>
+            </li>
+          ))}
+        </ul>
+        {filteredList.length === 0 && <p className="empty-msg">Список пуст</p>}
+      </main>
+
+      <footer className="footer-info">
+        <p>Разработчик: Колесников А.Ю.</p>
+        <p>Группа: ИУК2-42б</p>
+      </footer>
+    </div>
+  );
 };
 
 export default App;
