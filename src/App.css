@@ -1,69 +1,91 @@
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-main: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --border-color: #333333;
+  --accent-blue: #3700b3;
+  --accent-green: #03dac6;
+  --danger: #cf6679;
+}
+
+body {
+  background-color: var(--bg-color);
+  margin: 0;
+  color: var(--text-main);
+}
+
 .app-container {
   max-width: 800px;
   margin: 40px auto;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #ffffff;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  border-radius: 8px;
+  padding: 25px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--card-bg);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border-radius: 12px;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 15px;
-  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .stats-badge {
-  background: #28a745;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 20px;
+  background: var(--accent-green);
+  color: #000;
+  padding: 6px 16px;
+  border-radius: 8px;
   font-weight: bold;
+  font-size: 0.9em;
 }
 
 .form-section form {
   display: flex;
-  gap: 10px;
-  margin-bottom: 25px;
+  gap: 12px;
+  margin-bottom: 30px;
 }
 
-input[type="text"] {
-  flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+input[type="text"], select {
+  background-color: #2c2c2c;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 12px;
+  border-radius: 6px;
+  transition: border-color 0.3s;
 }
 
-select {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: white;
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent-green);
 }
+
+input[type="text"] { flex-grow: 1; }
 
 .add-btn {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--accent-green);
+  color: #000;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: opacity 0.3s;
 }
 
-.add-btn:hover {
-  background-color: #0056b3;
-}
+.add-btn:hover { opacity: 0.85; }
 
 .controls {
-  margin-bottom: 20px;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 4px;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #252525;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .exp-list {
@@ -75,48 +97,57 @@ select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  border-left: 5px solid #ccc;
-  background: #fff;
-  margin-bottom: 10px;
-  border-radius: 0 4px 4px 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  padding: 16px;
+  background: #2c2c2c;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #444;
+  transition: transform 0.2s;
 }
 
-.status-план { border-color: #ffc107; }
-.status-в-процессе { border-color: #17a2b8; }
-.status-завершён { border-color: #28a745; }
+.exp-item:hover {
+  transform: translateX(5px);
+}
+
+/* Цвета статусов для темной темы */
+.status-план { border-color: #ffb74d; }
+.status-в-процессе { border-color: #4fc3f7; }
+.status-завершён { border-color: var(--accent-green); }
 
 .exp-title {
-  font-weight: 600;
+  font-weight: 500;
   display: block;
+  font-size: 1.1em;
 }
 
 .exp-status-label {
-  font-size: 0.85em;
-  color: #666;
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .delete-btn {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  padding: 6px 14px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: all 0.3s;
 }
 
-.empty-msg {
-  text-align: center;
-  color: #999;
-  margin-top: 20px;
+.delete-btn:hover {
+  background: var(--danger);
+  color: white;
 }
 
 .footer-info {
-  margin-top: 40px;
+  margin-top: 50px;
   padding-top: 20px;
-  border-top: 1px solid #eee;
-  font-size: 0.9em;
-  color: #555;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.85em;
+  color: var(--text-secondary);
   text-align: center;
+  line-height: 1.6;
 }
