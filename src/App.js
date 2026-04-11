@@ -72,6 +72,11 @@ const sortedList = useMemo(() => {
   }, [experiments]);
 
   return (
+  <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+    <option value="Важный">Важный</option>
+    <option value="Средний">Средний</option>
+    <option value="Низкий">Низкий</option>
+  </select>
     <div className="app-container">
       <header>
         <h1>Система учёта экспериментов</h1>
