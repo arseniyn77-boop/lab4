@@ -3,7 +3,9 @@ import './App.css';
 
 const App = () => {
 
-  const [experiments, setExperiments] = useState(() => {
+      
+
+    const [experiments, setExperiments] = useState(() => {
     const saved = localStorage.getItem('lab_experiments');
     return saved ? JSON.parse(saved) : [];
   });
@@ -34,7 +36,6 @@ const App = () => {
   const handleDelete = (id) => {
     setExperiments(experiments.filter(exp => exp.id !== id));
   };
-
   
   const filteredList = useMemo(() => {
     return filter === 'Все' 
