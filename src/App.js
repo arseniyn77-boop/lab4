@@ -3,7 +3,30 @@ import './App.css';
 
 const App = () => {
 
-      
+
+const [priority, setPriority] = useState('Средний');
+
+
+const handleAdd = (e) => {
+  e.preventDefault();
+  if (!title.trim()) return;
+
+  const newExp = {
+    id: Date.now(),
+    title: title.trim(),
+    status,
+    priority 
+  };
+
+  setExperiments([...experiments, newExp]);
+  setTitle('');
+};
+
+
+const sortedList = useMemo(() => {
+  const priorityMap = { 'Важный': 3, 'Средний': 2, 'Низкий': 1 };
+  return [...filteredList].sort((a, b) => priorityMap[b.priority] - priorityMap[a.priority]);
+}, [filteredList]);
 
     const [experiments, setExperiments] = useState(() => {
     const saved = localStorage.getItem('lab_experiments');
