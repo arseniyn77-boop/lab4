@@ -74,9 +74,9 @@ const App = () => {
             <option value="Завершён">Завершён</option>
           </select>
           <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-            <option value="Важный">Важный</option>
-            <option value="Средний">Средний</option>
-            <option value="Низкий">Низкий</option>
+            <option value="Важный⠀⠀|⠀⠀">Важный</option>
+            <option value="Средний⠀⠀|⠀⠀">Средний</option>
+            <option value="Низкий⠀⠀|⠀⠀">Низкий</option>
           </select>
           <button type="submit" className="add-btn">Добавить</button>
         </form>
