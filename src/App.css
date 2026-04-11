@@ -58,6 +58,18 @@ input[type="text"], select {
   transition: border-color 0.3s;
 }
 
+.priority-badge {
+  font-size: 0.7em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 10px;
+  color: #000;
+}
+
+.важный { background-color: #cf6679; }
+.средний { background-color: #ffb74d; }
+.низкий { background-color: #03dac6; }
+
 input[type="text"]:focus {
   outline: none;
   border-color: var(--accent-green);
