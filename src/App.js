@@ -2,44 +2,33 @@ import React, { useState, useEffect, useMemo } from 'react';
 import './App.css';
 
 const App = () => {
-
-
-const [priority, setPriority] = useState('Средний');
-
-
-const handleAdd = (e) => {
-  e.preventDefault();
-  if (!title.trim()) return;
-
-  const newExp = {
-    id: Date.now(),
-    title: title.trim(),
-    status,
-    priority 
-  };
-
-  setExperiments([...experiments, newExp]);
-  setTitle('');
-};
-
-
-const sortedList = useMemo(() => {
-  const priorityMap = { 'Важный': 3, 'Средний': 2, 'Низкий': 1 };
-  return [...filteredList].sort((a, b) => priorityMap[b.priority] - priorityMap[a.priority]);
-}, [filteredList]);
-
-    const [experiments, setExperiments] = useState(() => {
+  const [experiments, setExperiments] = useState(() => {
     const saved = localStorage.getItem('lab_experiments');
     return saved ? JSON.parse(saved) : [];
   });
 
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('План');
+  const [priority, setPriority] = useState('Средний');
   const [filter, setFilter] = useState('Все');
-
 
   useEffect(() => {
     localStorage.setItem('lab_experiments', JSON.stringify(experiments));
+  }, [experiments]);
+
+  const filteredList = useMemo(() => {
+    return filter === 'Все' 
+      ? experiments 
+      : experiments.filter(exp => exp.status === filter);
+  }, [experiments, filter]);
+
+  const sortedList = useMemo(() => {
+    const priorityMap = { 'Важный': 3, 'Средний': 2, 'Низкий': 1 };
+    return [...filteredList].sort((a, b) => priorityMap[b.priority] - priorityMap[a.priority]);
+  }, [filteredList]);
+
+  const completedCount = useMemo(() => {
+    return experiments.filter(exp => exp.status === 'Завершён').length;
   }, [experiments]);
 
   const handleAdd = (e) => {
@@ -49,7 +38,8 @@ const sortedList = useMemo(() => {
     const newExp = {
       id: Date.now(),
       title: title.trim(),
-      status
+      status,
+      priority
     };
 
     setExperiments([...experiments, newExp]);
@@ -59,24 +49,8 @@ const sortedList = useMemo(() => {
   const handleDelete = (id) => {
     setExperiments(experiments.filter(exp => exp.id !== id));
   };
-  
-  const filteredList = useMemo(() => {
-    return filter === 'Все' 
-      ? experiments 
-      : experiments.filter(exp => exp.status === filter);
-  }, [experiments, filter]);
-
-  
-  const completedCount = useMemo(() => {
-    return experiments.filter(exp => exp.status === 'Завершён').length;
-  }, [experiments]);
 
   return (
-  <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-    <option value="Важный">Важный</option>
-    <option value="Средний">Средний</option>
-    <option value="Низкий">Низкий</option>
-  </select>
     <div className="app-container">
       <header>
         <h1>Система учёта экспериментов</h1>
@@ -99,6 +73,11 @@ const sortedList = useMemo(() => {
             <option value="В процессе">В процессе</option>
             <option value="Завершён">Завершён</option>
           </select>
+          <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+            <option value="Важный">Важный</option>
+            <option value="Средний">Средний</option>
+            <option value="Низкий">Низкий</option>
+          </select>
           <button type="submit" className="add-btn">Добавить</button>
         </form>
       </section>
@@ -115,17 +94,18 @@ const sortedList = useMemo(() => {
 
       <main>
         <ul className="exp-list">
-          {filteredList.map(exp => (
+          {sortedList.map(exp => (
             <li key={exp.id} className={`exp-item status-${exp.status.replace(/\s+/g, '-').toLowerCase()}`}>
               <div className="exp-info">
                 <span className="exp-title">{exp.title}</span>
+                <span className="exp-priority-label">{exp.priority}</span>
                 <span className="exp-status-label">{exp.status}</span>
               </div>
               <button onClick={() => handleDelete(exp.id)} className="delete-btn">Удалить</button>
             </li>
           ))}
         </ul>
-        {filteredList.length === 0 && <p className="empty-msg">Список пуст</p>}
+        {sortedList.length === 0 && <p className="empty-msg">Список пуст</p>}
       </main>
 
       <footer className="footer-info">
